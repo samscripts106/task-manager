@@ -11,10 +11,8 @@ function App() {
   return (
     <>
       <Navbar/>
-      <div className="container">
-        <div className="bg-red-600">
-          Hey I am red
-        </div>
+      <div className="container mx-auto my-5 rounded-xl p-5 bg-violet-100">
+        <h1 className="text-xl font-bold">Your tasks</h1>
       </div>
     </>
   )
