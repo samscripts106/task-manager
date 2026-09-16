@@ -7,38 +7,60 @@ import Navbar from './components/Navbar'
 // import './App.css'
 
 function App() {
-  const [todo, setTodo] = useState("") //Each todo
-  const [todos, setTodos] = useState([]) //Array that holds all the todos
+  const [todo, setTodo] = useState("") //Current todo in the input
+  const [todos, setTodos] = useState([]) //Array containing all todos 
 
-  const handleEdit = () =>{
+  const handleEdit = (e, id) =>{
+    //Find the todo we want to edit
+    let t = todos.filter(i=>i.id === id)
 
+    //Remove the old todo
+    let newTodos = todos.filter(item=>{
+        return item.id!==id
+    })
+
+    //Update the array
+    setTodos(newTodos)
+    //Put its text back into the input
+    setTodo(t[0].todo)
   }
 
   const handleDelete = (id) =>{
-      let newTodos = todos.filter(item=>{
-        return item.id!==id
-      })
-      setTodos(newTodos)
+    //Keep every todo except the selected one
+    let newTodos = todos.filter(item=>{
+      return item.id!==id
+    })
+
+    //Update the array
+    setTodos(newTodos)
   }
 
   const handleAdd = () =>{
+    //Add a new todo to the array
     setTodos([...todos, {id:uuidv4(), todo, isCompleted: false}])
+
+    //Clear input
     setTodo("")
   }
 
   const handleChange = (e) =>{
-      setTodo(e.target.value)
+    //Update todo with the input text
+    setTodo(e.target.value)
   }
 
   const handleCheckbox = (e) => {
-  let id = e.target.name;
-  
-  let index = todos.findIndex(item=>{
-    return item.id === id;
-  })
-  let newTodos = [...todos]
-  newTodos[index].isCompleted = !newTodos[index].isCompleted;
-  setTodos(newTodos)
+    //Get the clicked todo's ID
+    let id = e.target.name;
+    //get the index of the todo i checked
+    let index = todos.findIndex(item=>{
+      return item.id === id;
+    })
+    //copy the array
+    let newTodos = [...todos]
+    //Toggle the completed status 
+    newTodos[index].isCompleted = !newTodos[index].isCompleted;
+    //Update the array
+    setTodos(newTodos)
   }
   
 
@@ -49,17 +71,18 @@ function App() {
         <div className="addTodo my-3">
           <h2 className="text-lg font-bold">Add a Todo</h2>
           <input onChange={handleChange} value={todo} type="text" className='bg-white w-1/2'/>
-          <button onClick={handleAdd} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-6">Add</button>
+          <button onClick={handleAdd} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-6">Save</button>
         </div>
         <h2 className='text-lg font-bold'>Your Todos</h2>
         <div className="todos">
+          {todos.length === 0  && <div className='m-5'>No Todos to display</div>}
 
           {todos.map(item=>{
             return <div key={item.id} className="todo flex w-1/2 justify-between my-3">
               <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
               <div className={item.isCompleted?"line-through":""}>{item.todo}</div>
               <div className="buttons">
-                <button onClick={handleEdit} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-1'>
+                <button onClick={(e)=>handleEdit(e, item.id)} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-1'>
                   Edit
                 </button>
                 <button onClick={()=>{handleDelete(item.id)}} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-1'>
