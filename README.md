@@ -1,16 +1,57 @@
-# React + Vite
+# 📝 Task Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple and responsive Task Manager built with **React and Vite**.  
+The application allows users to create, edit, complete, and delete tasks, with tasks persisted using the browser's `localStorage`.
 
-Currently, two official plugins are available:
+## 🚀 Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+🔗 https://task-manager-xi-vert-62.vercel.app/
 
-## React Compiler
+<img width="2940" height="1618" alt="image" src="https://github.com/user-attachments/assets/670a0bca-34a9-48f4-8ce0-f60ed13cb78e" />
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ✨ Features
+
+- ➕ Add new tasks
+- ✏️ Edit existing tasks
+- ✅ Mark tasks as completed
+- 🗑️ Delete tasks
+- 💾 Persist tasks using `localStorage`
+- 🔄 Tasks remain available after refreshing the page
+- 📱 Responsive user interface
+- 🧭 Navigation bar
+
+---
+
+## 🛠️ Tech Stack
+
+- **React** – UI development
+- **Vite** – Development server and build tool
+- **JavaScript (ES6+)** – Application logic
+- **Tailwind CSS** – Styling
+- **UUID** – Generating unique task IDs
+- **localStorage** – Client-side data persistence
+
+---
+
+## 📂 Project Structure
+
+```text
+task-manager/
+│
+├── public/
+│
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   └── Navbar.jsx
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── index.html
+├── package.json
+├── vite.config.js
+└── README.md
