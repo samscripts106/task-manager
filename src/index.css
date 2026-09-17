@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+body {
+  background-color: #bfdbfe;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("./assets/doodle.webp");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: -1;
+}
