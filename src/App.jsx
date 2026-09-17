@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import heroImg from './assets/hero.png'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
@@ -10,10 +10,25 @@ function App() {
   const [todo, setTodo] = useState("") //Current todo in the input
   const [todos, setTodos] = useState([]) //Array containing all todos 
 
+  //Load the todos on first mount
+  useEffect(() => {
+    let todoString = localStorage.getItem("todos")
+    if(todoString){ //provided todoString isnt empty
+      let todos = JSON.parse(localStorage.getItem("todos")) //String to JSON
+      setTodos(todos)
+    }
+  }, [])
+  
+  //takes the todos array as parameter and stores in JSON as string
+  const saveToLS = (todos) =>{
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }
+
   const handleEdit = (e, id) =>{
     //Find the todo we want to edit
     let t = todos.filter(i=>i.id === id)
-
+    //Put its text back into the input
+    setTodo(t[0].todo)
     //Remove the old todo
     let newTodos = todos.filter(item=>{
         return item.id!==id
@@ -21,8 +36,7 @@ function App() {
 
     //Update the array
     setTodos(newTodos)
-    //Put its text back into the input
-    setTodo(t[0].todo)
+    saveToLS()
   }
 
   const handleDelete = (id) =>{
@@ -33,14 +47,16 @@ function App() {
 
     //Update the array
     setTodos(newTodos)
+    saveToLS(newTodos)
   }
 
   const handleAdd = () =>{
+    let newTodos = [...todos, {id:uuidv4(), todo, isCompleted: false}]
     //Add a new todo to the array
-    setTodos([...todos, {id:uuidv4(), todo, isCompleted: false}])
-
+    setTodos(newTodos)
     //Clear input
     setTodo("")
+    saveToLS(newTodos)
   }
 
   const handleChange = (e) =>{
@@ -61,6 +77,7 @@ function App() {
     newTodos[index].isCompleted = !newTodos[index].isCompleted;
     //Update the array
     setTodos(newTodos)
+    saveToLS(newTodos)
   }
   
 
@@ -81,7 +98,7 @@ function App() {
             return <div key={item.id} className="todo flex w-1/2 justify-between my-3">
               <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
               <div className={item.isCompleted?"line-through":""}>{item.todo}</div>
-              <div className="buttons">
+              <div className="buttons flex h-full">
                 <button onClick={(e)=>handleEdit(e, item.id)} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-1'>
                   Edit
                 </button>
