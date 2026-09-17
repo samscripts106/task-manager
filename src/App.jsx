@@ -9,7 +9,12 @@ import Navbar from './components/Navbar'
 function App() {
   const [todo, setTodo] = useState("") //Current todo in the input
   const [todos, setTodos] = useState([]) //Array containing all todos 
+  const [showFinished, setshowFinished] = useState(true)
 
+  const toggleFinished = (e) => {
+    setshowFinished (!showFinished)
+  }
+  
   //Load the todos on first mount
   useEffect(() => {
     let todoString = localStorage.getItem("todos")
@@ -88,15 +93,17 @@ function App() {
         <div className="addTodo my-3">
           <h2 className="text-lg font-bold">Add a Todo</h2>
           <input onChange={handleChange} value={todo} type="text" className='bg-white w-1/2'/>
-          <button onClick={handleAdd} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-6">Save</button>
+          <button onClick={handleAdd} disabled={todo.length<=3} className="bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-6">Save</button>
         </div>
+        <input onChange={toggleFinished} type="checkbox" checked={showFinished} /> Show finished
         <h2 className='text-lg font-bold'>Your Todos</h2>
         <div className="todos">
           {todos.length === 0  && <div className='m-5'>No Todos to display</div>}
 
           {todos.map(item=>{
-            return <div key={item.id} className="todo flex w-1/2 justify-between my-3">
-              <input name={item.id} onChange={handleCheckbox} type="checkbox" value={item.isCompleted} id="" />
+
+            return (showFinished || !item.isCompleted) && <div key={item.id} className="todo flex w-1/2 justify-between my-3">
+              <input name={item.id} onChange={handleCheckbox} type="checkbox" checked={item.isCompleted} id="" />
               <div className={item.isCompleted?"line-through":""}>{item.todo}</div>
               <div className="buttons flex h-full">
                 <button onClick={(e)=>handleEdit(e, item.id)} className='bg-violet-800 hover:bg-violet-950 p-2 py-1 text-sm font-bold text-white rounded-md mx-1'>
